@@ -43,7 +43,7 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
-    private List<Actor> actors;
+    private Set<Actor> actors;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
@@ -52,6 +52,9 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
     private Set<Genre> genres;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "movie")
+    private Set<Review> reviews;
 
     @Override
     public boolean equals(Object o) {
@@ -70,4 +73,30 @@ public class Movie {
         this.actors.add(actor);
         actor.getMovies().add(this);
     }
+
+    public void removeActor(Actor actor){
+        this.actors.remove(actor);
+        actor.getMovies().remove(this);
+    }
+
+    public void addGenre(Genre genre){
+        this.genres.add(genre);
+        genre.getMovies().add(this);
+    }
+
+    public void removeGenre(Genre genre){
+        this.genres.remove(genre);
+        genre.getMovies().remove(this);
+    }
+
+    public void addReview(Review review){
+        this.reviews.add(review);
+        review.setMovie(this);
+    }
+
+    public void removeReview(Review review){
+        this.reviews.remove(review);
+        review.setMovie(null);
+    }
+
 }
