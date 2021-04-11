@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import model.tmbd.TmdbGenre;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -23,11 +25,18 @@ public class Genre {
     @GeneratedValue
     private Long id;
 
-    @NaturalId
     private String name;
 
+    @NaturalId
+    private Integer tmdbId;
+
     @ManyToMany(mappedBy = "genres")
-    private Set<Movie> movies;
+    private Set<Movie> movies = new HashSet<>();
+
+    public Genre(TmdbGenre tmdbGenre){
+        this.name = tmdbGenre.getName();
+        this.tmdbId = tmdbGenre.getId();
+    }
 
     @Override
     public boolean equals(Object o) {

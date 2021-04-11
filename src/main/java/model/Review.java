@@ -8,10 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "reviews")
@@ -39,10 +36,10 @@ public class Review {
     private Movie movie;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "review")
-    private List<Reply> replies;
+    private List<Reply> replies = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "review")
-    private List<Like> likes;
+    private List<Like> likes = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

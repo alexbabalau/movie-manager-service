@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import model.tmbd.TmdbActor;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -23,11 +25,21 @@ public class Actor {
     @GeneratedValue
     private Long id;
 
-    @NaturalId
     private String name;
 
+    private String imagePath;
+
+    @NaturalId
+    private Integer tmdbId;
+
     @ManyToMany(mappedBy = "actors")
-    private Set<Movie> movies;
+    private Set<Movie> movies = new HashSet<>();
+
+    public Actor(TmdbActor tmdbActor){
+        this.name = tmdbActor.getName();
+        this.imagePath = tmdbActor.getProfilePath();
+        this.tmdbId = tmdbActor.getId();
+    }
 
     @Override
     public boolean equals(Object o) {

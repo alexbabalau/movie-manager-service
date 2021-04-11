@@ -4,9 +4,8 @@ import model.Movie;
 import org.aspectj.apache.bcel.util.Repository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface MovieRepository extends PagingAndSortingRepository<Long, Movie> {
+import java.util.Optional;
 
-    Movie save(Movie movie);
-
-    Movie findById(Long id);
+public interface MovieRepository extends PagingAndSortingRepository<Movie, Long> {
+    Optional<Movie> findFirstByOrderById();
 }

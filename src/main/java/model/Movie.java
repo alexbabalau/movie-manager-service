@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import model.tmbd.MovieCompressed;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "Movies")
@@ -20,22 +18,19 @@ import java.util.Set;
 @AllArgsConstructor
 public class Movie {
     @Id
+    @GeneratedValue
     private Long id;
 
     @NaturalId
-    private String imdbId;
+    private Integer tmdbId;
 
     private String title;
 
     private String description;
 
-    private Double imdbRating;
-
     private Date releaseDate;
 
-    private Integer year;
-
-    private String youtubeTrailerKey;
+    private String imagePath;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
@@ -43,7 +38,7 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
-    private Set<Actor> actors;
+    private Set<Actor> actors = new HashSet<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
@@ -51,22 +46,30 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
-    private Set<Genre> genres;
+    private Set<Genre> genres = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "movie")
-    private Set<Review> reviews;
+    private Set<Review> reviews = new HashSet<>();
+
+    public Movie(MovieCompressed movieCompressed){
+        this.imagePath = movieCompressed.getPosterPath();
+        this.tmdbId = movieCompressed.getId();
+        this.title = movieCompressed.getTitle();
+        this.description = movieCompressed.getOverview();
+        this.releaseDate = movieCompressed.getReleaseDate();
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Movie)) return false;
         Movie movie = (Movie) o;
-        return imdbId.equals(movie.imdbId);
+        return tmdbId.equals(movie.tmdbId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(imdbId);
+        return Objects.hash(tmdbId);
     }
 
     public void addActor(Actor actor){
