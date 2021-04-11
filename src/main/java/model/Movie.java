@@ -26,6 +26,7 @@ public class Movie {
 
     private String title;
 
+    @Lob
     private String description;
 
     private Date releaseDate;

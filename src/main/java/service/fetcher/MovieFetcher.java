@@ -1,4 +1,4 @@
-package service;
+package service.fetcher;
 
 import model.Actor;
 import model.Genre;

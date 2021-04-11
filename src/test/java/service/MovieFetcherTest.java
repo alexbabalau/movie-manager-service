@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import repository.MovieRepository;
+import service.fetcher.MovieFetcher;
 
 import java.util.Optional;
 

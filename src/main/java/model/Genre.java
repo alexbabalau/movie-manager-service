@@ -1,5 +1,6 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,7 @@ public class Genre {
     private Integer tmdbId;
 
     @ManyToMany(mappedBy = "genres")
+    @JsonIgnore
     private Set<Movie> movies = new HashSet<>();
 
     public Genre(TmdbGenre tmdbGenre){

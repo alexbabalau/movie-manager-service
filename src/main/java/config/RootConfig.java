@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration("rootConfig")
-@ComponentScan({"service"})
+@ComponentScan({"service", "controller"})
 @EnableJpaRepositories("repository")
 @EnableTransactionManagement
 public class RootConfig {

@@ -1,12 +1,12 @@
-package controller;
+package controller.fetcher;
 
-import model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import service.MovieFetcher;
+import service.fetcher.MovieFetcher;
 
 @RestController
+@RequestMapping("/fetch")
 public class FetcherRestController {
 
     private MovieFetcher movieFetcher;
@@ -16,13 +16,13 @@ public class FetcherRestController {
         this.movieFetcher = movieFetcher;
     }
 
-    @GetMapping("/fetch/movies/{year}/{limit}")
+    @GetMapping("/movies/{year}/{limit}")
     @ResponseStatus(HttpStatus.CREATED)
     public void fetchMovies(@PathVariable Integer year, @PathVariable Integer limit){
         movieFetcher.saveMoviesByYear(year, limit);
     }
 
-    @GetMapping("/fetch/genres")
+    @GetMapping("/genres")
     @ResponseStatus(HttpStatus.CREATED)
     public void fetchGenres(){
         movieFetcher.saveGenres();
