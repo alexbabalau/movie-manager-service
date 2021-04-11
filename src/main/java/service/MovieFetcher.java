@@ -60,6 +60,9 @@ public class MovieFetcher {
     private void saveMoviesFromDiscoverResponse(DiscoverResponse response, int limit){
         List<MovieCompressed> moviesFromResponse = response.getResults();
         for(MovieCompressed movieCompressed : moviesFromResponse){
+            Optional<Movie> savedMovie = movieRepository.findByTmdbId(movieCompressed.getId());
+            if(savedMovie.isPresent())
+                continue;
             Movie movie = new Movie(movieCompressed);
             addGenresToMovieFromMovieCompressed(movie, movieCompressed);
             addActorsToMovieFromMovieCompressed(movie, movieCompressed);
@@ -83,6 +86,9 @@ public class MovieFetcher {
     public void saveGenres() {
         List<TmdbGenre> genres = tmdbApiService.getGenres().getGenres();
         for(TmdbGenre tmdbGenre : genres){
+            if(genreRepository.findByTmdbId(tmdbGenre.getId()).isPresent()){
+                continue;
+            }
             Genre genre = new Genre(tmdbGenre);
             genreRepository.save(genre);
         }

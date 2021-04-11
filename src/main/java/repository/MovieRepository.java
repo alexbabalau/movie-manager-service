@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface MovieRepository extends PagingAndSortingRepository<Movie, Long> {
     Optional<Movie> findFirstByOrderById();
+    Optional<Movie> findByTmdbId(Integer tmdbId);
 }
