@@ -34,5 +34,5 @@ build/
 # Maven
 log/
 target/
-
+data/
 src/main/resources/app-keys.properties
