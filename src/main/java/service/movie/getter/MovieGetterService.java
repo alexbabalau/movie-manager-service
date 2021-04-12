@@ -38,6 +38,10 @@ public class MovieGetterService {
 
     public List<MovieCompressed> getMoviesSortedByDate(Integer page, String genresListString){
         Pageable pageable = PageRequest.of(page, itemsPerPage, Sort.by(Sort.Direction.DESC, "releaseDate"));
+        return getMovieCompressedListFromGenresAndPageable(genresListString, pageable);
+    }
+
+    private List<MovieCompressed> getMovieCompressedListFromGenresAndPageable(String genresListString, Pageable pageable) {
         if(genresListString.isEmpty())
             return compressedMovieList(movieRepository.findAll(pageable).toList());
         List<Genre> genres = genreListRetriever.getGenresFromString(genresListString);
@@ -45,10 +49,9 @@ public class MovieGetterService {
         return compressedMovieList(movieRepository.findByGenresContaining(genres,  (long) genres.size(), pageable).toList());
     }
 
-    public List<Movie> getMoviesSortedByTitle(Integer page){
-        System.out.println(itemsPerPage);
-        Pageable pageable = PageRequest.of(page, itemsPerPage, Sort.by(Sort.Direction.DESC, "releaseDate"));
-        return movieRepository.findAll(pageable).toList();
+    public List<MovieCompressed> getMoviesSortedByTitle(Integer page, String genresListString){
+        Pageable pageable = PageRequest.of(page, itemsPerPage, Sort.by(Sort.Direction.ASC, "title"));
+        return getMovieCompressedListFromGenresAndPageable(genresListString, pageable);
     }
 
 }

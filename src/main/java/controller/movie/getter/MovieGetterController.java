@@ -23,4 +23,8 @@ public class MovieGetterController {
     public List<MovieCompressed> getNewestMoviesByPage(@PathVariable Integer page, @RequestParam(required = false, defaultValue = "") String genres){
         return movieGetterService.getMoviesSortedByDate(page, genres);
     }
+    @GetMapping("/byTitle/{page}")
+    public List<MovieCompressed> getByTitleMoviesByPage(@PathVariable Integer page, @RequestParam(required = false, defaultValue = "") String genres){
+        return movieGetterService.getMoviesSortedByTitle(page, genres);
+    }
 }
