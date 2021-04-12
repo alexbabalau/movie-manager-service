@@ -1,0 +1,15 @@
+2021-04-11 14:51:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MOVIES" not found; SQL statement:
+select movie0_.id as id1_5_, movie0_.description as descript2_5_, movie0_.image_path as image_pa3_5_, movie0_.release_date as release_4_5_, movie0_.title as title5_5_, movie0_.tmdb_id as tmdb_id6_5_ from movies movie0_ where movie0_.tmdb_id=? [42102-200]
+2021-04-11 15:00:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MOVIES" not found; SQL statement:
+select movie0_.id as id1_5_, movie0_.description as descript2_5_, movie0_.image_path as image_pa3_5_, movie0_.release_date as release_4_5_, movie0_.title as title5_5_, movie0_.tmdb_id as tmdb_id6_5_ from movies movie0_ where movie0_.tmdb_id=? [42102-200]
+2021-04-11 15:20:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION VARCHAR(255)": "STRINGDECODE('After the vicious slaughter of his family by stone-cold mercenary Sub-Zero, Hanzo Hasashi is exiled to the torturo... (629)"; SQL statement:
+insert into movies (description, image_path, release_date, title, tmdb_id, id) values (?, ?, ?, ?, ?, ?) [22001-200]
+2021-04-11 15:22:27 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION VARCHAR(255)": "STRINGDECODE('After the vicious slaughter of his family by stone-cold mercenary Sub-Zero, Hanzo Hasashi is exiled to the torturo... (629)"; SQL statement:
+insert into movies (description, image_path, release_date, title, tmdb_id, id) values (?, ?, ?, ?, ?, ?) [22001-200]
+2021-04-11 15:26:32 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION VARCHAR(255)": "STRINGDECODE('After the vicious slaughter of his family by stone-cold mercenary Sub-Zero, Hanzo Hasashi is exiled to the torturo... (629)"; SQL statement:
+insert into movies (description, image_path, release_date, title, tmdb_id, id) values (?, ?, ?, ?, ?, ?) [22001-200]
