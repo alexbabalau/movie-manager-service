@@ -1,11 +1,9 @@
 package controller.movie.getter;
 
 import model.Movie;
+import model.MovieCompressed;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import service.movie.getter.MovieGetterService;
 
 import java.util.List;
@@ -22,7 +20,7 @@ public class MovieGetterController {
     }
 
     @GetMapping("/newest/{page}")
-    public List<Movie> getNewestMoviesByPage(@PathVariable Integer page){
-        return movieGetterService.getMoviesSortedByDate(page);
+    public List<MovieCompressed> getNewestMoviesByPage(@PathVariable Integer page, @RequestParam(required = false, defaultValue = "") String genres){
+        return movieGetterService.getMoviesSortedByDate(page, genres);
     }
 }

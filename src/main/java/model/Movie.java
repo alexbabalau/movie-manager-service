@@ -53,7 +53,7 @@ public class Movie {
     private Set<Review> reviews = new HashSet<>();
 
     public Movie(MovieCompressed movieCompressed){
-        this.imagePath = movieCompressed.getPosterPath();
+        this.imagePath = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2" + movieCompressed.getPosterPath();
         this.tmdbId = movieCompressed.getId();
         this.title = movieCompressed.getTitle();
         this.description = movieCompressed.getOverview();
