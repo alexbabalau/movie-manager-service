@@ -54,4 +54,8 @@ public class MovieGetterService {
         return getMovieCompressedListFromGenresAndPageable(genresListString, pageable);
     }
 
+    public Movie getMovieDetails(Integer movieId){
+        return null;
+    }
+
 }
