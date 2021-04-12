@@ -54,8 +54,8 @@ public class MovieGetterService {
         return getMovieCompressedListFromGenresAndPageable(genresListString, pageable);
     }
 
-    public Movie getMovieDetails(Integer movieId){
-        return null;
+    public Movie getMovieDetails(Long movieId){
+        return movieRepository.findById(movieId).orElse(null);
     }
 
 }

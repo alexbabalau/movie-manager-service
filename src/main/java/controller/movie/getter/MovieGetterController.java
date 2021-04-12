@@ -45,4 +45,15 @@ public class MovieGetterController {
                     HttpStatus.BAD_REQUEST, "Invalid genre", ex);
         }
     }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Movie getMovieById(@PathVariable Long id){
+        Movie movie = movieGetterService.getMovieDetails(id);
+        if(movie == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie not found");
+        }
+        return movie;
+    }
+
 }
