@@ -32,8 +32,20 @@ public class MovieGetterController {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Invalid genre", ex);
         }
-
     }
+
+    @GetMapping("/topRated/{page}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<MovieCompressed> getTopRatedMoviesByPage(@PathVariable Integer page, @RequestParam(required = false, defaultValue = "") String genres){
+        try{
+            return movieGetterService.getMoviesSortedByRating(page, genres);
+        }
+        catch(NoSuchGenreException ex){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Invalid genre", ex);
+        }
+    }
+
     @GetMapping("/byTitle/{page}")
     @ResponseStatus(HttpStatus.OK)
     public List<MovieCompressed> getByTitleMoviesByPage(@PathVariable Integer page, @RequestParam(required = false, defaultValue = "") String genres){

@@ -1,6 +1,7 @@
 package model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,11 +29,11 @@ public class Review {
 
     private String comment;
 
-    @NaturalId
     private String username;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id")
+    @JsonIgnore
     private Movie movie;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "review")

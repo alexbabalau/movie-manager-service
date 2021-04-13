@@ -5,6 +5,17 @@
  (188, STRINGDECODE('After the vicious slaughter of his family by stone-cold mercenary Sub-Zero, Hanzo Hasashi is exiled to the torturous Netherrealm. There, in exchange for his servitude to the sinister Quan Chi, he\u2019s given a chance to avenge his family \u2013 and is resurrected as Scorpion, a lost soul bent on revenge. Back on Earthrealm, Lord Raiden gathers a team of elite warriors \u2013 Shaolin monk Liu Kang, Special Forces officer Sonya Blade and action star Johnny Cage \u2013 an unlikely band of heroes with one chance to save humanity. To do this, they must defeat Shang Tsung\u2019s horde of Outworld gladiators and reign over the Mortal Kombat tournament.'), 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/4VlXER3FImHeFuUjBShFamhIp9M.jpg', TIMESTAMP '2020-04-12 03:00:00', 'Mortal Kombat Legends: Scorpion''s Revenge', 664767),
  (202, 'An adventure-loving couple convince their friends to explore a remote, uncharted cave system in the forests of Northern Australia. With a tropical storm approaching, they abseil into the mouth of the cave, but when the caves start to flood, tensions rise as oxygen levels fall and the friends find themselves trapped. Unknown to them, the storm has also brought in a pack of dangerous and hungry crocodiles.', 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/95S6PinQIvVe4uJAd82a2iGZ0rA.jpg', TIMESTAMP '2020-07-09 03:00:00', 'Black Water: Abyss', 522444),
  (218, 'Searching for a safer habitat, the prehistoric Crood family discovers an idyllic, walled-in paradise that meets all of its needs. Unfortunately, they must also learn to live with the Bettermans -- a family that''s a couple of steps above the Croods on the evolutionary ladder. As tensions between the new neighbors start to rise, a new threat soon propels both clans on an epic adventure that forces them to embrace their differences, draw strength from one another, and survive together.', 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/tbVZ3Sq88dZaCANlUcewQuHQOaE.jpg', TIMESTAMP '2020-11-25 02:00:00', 'The Croods: A New Age', 529203);
+INSERT INTO "PUBLIC"."REVIEWS"(id, comment, date, stars, username, movie_id) VALUES
+(1, 'Nice', TIMESTAMP '2020-12-16 02:00:00', 3, 'user1', 20),
+(2, 'Bad', TIMESTAMP '2020-12-16 02:00:00', 1, 'user2', 20),
+(3, 'Nice', TIMESTAMP '2020-12-16 02:00:00', 2, 'user1', 40),
+(4, 'Bad', TIMESTAMP '2020-12-16 02:00:00', 1, 'user2', 40),
+(5, 'Nice', TIMESTAMP '2020-12-16 02:00:00', 5, 'user1', 188),
+(6, 'Bad', TIMESTAMP '2020-12-16 02:00:00', 4, 'user2', 188),
+(7, 'Nice', TIMESTAMP '2020-12-16 02:00:00', 5, 'user1', 202),
+(8, 'Bad', TIMESTAMP '2020-12-16 02:00:00', 5, 'user2', 202),
+(9, 'Nice', TIMESTAMP '2020-12-16 02:00:00', 3, 'user1', 218),
+(10, 'Bad', TIMESTAMP '2020-12-16 02:00:00', 3, 'user2', 218);
 INSERT INTO "PUBLIC"."ACTORS" VALUES
 (21, 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/1thwLjrgvFv7ifjyVtTKQh23OCh.jpg', 'Josh Helman', 1056053),
 (22, 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/w8V1D3CJ1PWxOcPyrIpXPcl3GUS.jpg', STRINGDECODE('Jannik Sch\u00fcmann'), 585494),

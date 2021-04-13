@@ -23,5 +23,6 @@ public class Like {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
+    @JsonIgnore
     private Review review;
 }
