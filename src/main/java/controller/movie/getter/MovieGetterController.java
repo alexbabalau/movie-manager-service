@@ -2,12 +2,15 @@ package controller.movie.getter;
 
 import model.Movie;
 import model.MovieCompressed;
+import model.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import service.movie.getter.MovieGetterService;
+import service.review.getter.ReviewGetterService;
 import utils.exceptions.NoSuchGenreException;
+import utils.exceptions.NoSuchMovieException;
 
 import java.util.List;
 
@@ -16,10 +19,12 @@ import java.util.List;
 public class MovieGetterController {
 
     private MovieGetterService movieGetterService;
+    private ReviewGetterService reviewGetterService;
 
     @Autowired
-    public MovieGetterController(MovieGetterService movieGetterService){
+    public MovieGetterController(MovieGetterService movieGetterService, ReviewGetterService reviewGetterService){
         this.movieGetterService = movieGetterService;
+        this.reviewGetterService = reviewGetterService;
     }
 
     @GetMapping("/newest/{page}")
@@ -66,6 +71,17 @@ public class MovieGetterController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie not found");
         }
         return movie;
+    }
+
+    @GetMapping("/{movieId}/reviews")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Review> getReviewsByMovieId(@PathVariable Long movieId){
+        try{
+            return reviewGetterService.getReviewsFromMovie(movieId);
+        }
+        catch (NoSuchMovieException ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie not found");
+        }
     }
 
 }
