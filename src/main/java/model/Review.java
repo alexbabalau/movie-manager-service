@@ -40,6 +40,7 @@ public class Review {
     private List<Reply> replies = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "review")
+    @JsonIgnore
     private List<Like> likes = new ArrayList<>();
 
     @Override

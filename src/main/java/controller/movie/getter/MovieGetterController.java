@@ -84,4 +84,15 @@ public class MovieGetterController {
         }
     }
 
+    @GetMapping("/{movieId}/likes/{username}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Long> getLikeReviewsIdByMovieIdAndUsername(@PathVariable Long movieId, @PathVariable String username){
+        try{
+            return reviewGetterService.getReviewsIdFromMovieAndUsername(movieId, username);
+        }
+        catch (NoSuchMovieException ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie not found");
+        }
+    }
+
 }

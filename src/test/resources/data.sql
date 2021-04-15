@@ -16,6 +16,9 @@ INSERT INTO "PUBLIC"."REVIEWS"(id, comment, date, stars, username, movie_id) VAL
 (8, 'Bad', TIMESTAMP '2020-12-16 02:00:00', 5, 'user2', 202),
 (9, 'Nice', TIMESTAMP '2020-12-16 02:00:00', 3, 'user1', 218),
 (10, 'Bad', TIMESTAMP '2020-12-16 02:00:00', 3, 'user2', 218);
+INSERT INTO "PUBLIC"."LIKES"(id, username, review_id) VALUES
+(1, 'user1', 1),
+(2, 'user1', 2);
 INSERT INTO "PUBLIC"."ACTORS" VALUES
 (21, 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/1thwLjrgvFv7ifjyVtTKQh23OCh.jpg', 'Josh Helman', 1056053),
 (22, 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/w8V1D3CJ1PWxOcPyrIpXPcl3GUS.jpg', STRINGDECODE('Jannik Sch\u00fcmann'), 585494),
