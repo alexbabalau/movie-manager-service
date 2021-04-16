@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import repository.MovieRepository;
 import utils.GenreListRetriever;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +37,7 @@ public class MovieGetterService {
         return movies.stream().map(MovieCompressed::new).collect(Collectors.toList());
     }
 
+    @Transactional
     public List<MovieCompressed> getMoviesSortedByDate(Integer page, String genresListString){
         Pageable pageable = PageRequest.of(page, itemsPerPage, Sort.by(Sort.Order.desc("releaseDate").nullsLast()));
         return getMovieCompressedListFromGenresAndPageable(genresListString, pageable);
@@ -49,15 +51,18 @@ public class MovieGetterService {
         return compressedMovieList(movieRepository.findByGenresContaining(genres,  (long) genres.size(), pageable).toList());
     }
 
+    @Transactional
     public List<MovieCompressed> getMoviesSortedByTitle(Integer page, String genresListString){
         Pageable pageable = PageRequest.of(page, itemsPerPage, Sort.by(Sort.Order.asc("title").nullsLast()));
         return getMovieCompressedListFromGenresAndPageable(genresListString, pageable);
     }
 
+    @Transactional
     public Movie getMovieDetails(Long movieId){
         return movieRepository.findById(movieId).orElse(null);
     }
 
+    @Transactional
     public List<MovieCompressed> getMoviesSortedByRating(Integer page, String genresListString){
         Pageable pageable = PageRequest.of(page, itemsPerPage, Sort.by(Sort.Order.desc("movieRating.rating").nullsLast()));
         return getMovieCompressedListFromGenresAndPageable(genresListString, pageable);

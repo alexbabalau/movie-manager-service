@@ -1,6 +1,7 @@
 package model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,11 +21,13 @@ import java.util.*;
 public class Review {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Integer stars;
 
+    @JsonFormat
+            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date date;
 
     private String comment;
@@ -74,5 +77,17 @@ public class Review {
     public void removeLike(Like like){
         this.likes.remove(like);
         like.setReview(null);
+    }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "id=" + id +
+                ", stars=" + stars +
+                ", date=" + date +
+                ", comment='" + comment + '\'' +
+                ", username='" + username + '\'' +
+                "id: " + movie.getId() +
+                '}';
     }
 }

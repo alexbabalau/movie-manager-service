@@ -11,6 +11,7 @@ import repository.MovieRepository;
 import repository.ReviewRepository;
 import utils.exceptions.NoSuchMovieException;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,7 @@ public class ReviewGetterService {
         this.likeRepository = likeRepository;
     }
 
+    @Transactional
     public List<Review> getReviewsFromMovie(Long movieId){
         Optional<Movie> movieOptional = movieRepository.findById(movieId);
         if(!movieOptional.isPresent())
@@ -36,6 +38,7 @@ public class ReviewGetterService {
         return new ArrayList<Review>(movie.getReviews());
     }
 
+    @Transactional
     public List<Long> getReviewsIdFromMovieAndUsername(Long movieId, String username){
         Optional<Movie> movieOptional = movieRepository.findById(movieId);
         if(!movieOptional.isPresent())
