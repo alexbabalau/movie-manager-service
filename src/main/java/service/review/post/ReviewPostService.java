@@ -32,7 +32,8 @@ public class ReviewPostService {
     }
 
     @Transactional
-    public Review addReview(Review review, Long movieId){
+    public Review addReview(Review review, Long movieId, String username){
+        review.setUsername(username);
         checkIfAlreadyExistingReview(review, movieId);
         Optional<Movie> movieOptional = movieRepository.findById(movieId);
         if(!movieOptional.isPresent())

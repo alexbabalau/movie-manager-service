@@ -26,11 +26,11 @@ public class ReviewsController {
         this.reviewPutService = reviewPutService;
     }
 
-    @PostMapping("/{movieId}")
+    @PostMapping("/{movieId}/{username}")
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody Review addReview(@PathVariable Long movieId, @RequestBody Review review){
+    public @ResponseBody Review addReview(@PathVariable Long movieId, @RequestBody Review review, @PathVariable String username){
         try{
-            return reviewPostService.addReview(review, movieId);
+            return reviewPostService.addReview(review, movieId, username);
         }
         catch (NoSuchMovieException ex){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie not found");
@@ -40,11 +40,11 @@ public class ReviewsController {
         }
     }
 
-    @PutMapping("/{username}")
+    @PutMapping("/{reviewId}/{username}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateReview(@PathVariable String username, @RequestBody Review newReview){
+    public void updateReview(@PathVariable String username, @RequestBody Review newReview, @PathVariable Long reviewId){
         try{
-            reviewPutService.updateReview(newReview, username);
+            reviewPutService.updateReview(newReview, username, reviewId);
         }
         catch (NoSuchReviewException ex){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Review not found");

@@ -22,8 +22,7 @@ public class ReviewPutService {
 
 
     @Transactional
-    public void updateReview(Review newReview, String username){
-        Long reviewId = newReview.getId();
+    public void updateReview(Review newReview, String username, Long reviewId){
         Optional<Review> retrievedReview = reviewRepository.findById(reviewId);
         if(!retrievedReview.isPresent()){
             throw new NoSuchReviewException();

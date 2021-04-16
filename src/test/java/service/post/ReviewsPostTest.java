@@ -44,7 +44,7 @@ public class ReviewsPostTest {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         ObjectMapper objectMapper = new ObjectMapper();
         String serializedReview = objectMapper.writeValueAsString(review);
-        ResultActions postResult = mockMvc.perform(post("/reviews/218")
+        ResultActions postResult = mockMvc.perform(post("/reviews/218/user3")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(serializedReview))
                 .andExpect(status().isOk())
@@ -74,7 +74,7 @@ public class ReviewsPostTest {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         ObjectMapper objectMapper = new ObjectMapper();
         String serializedReview = objectMapper.writeValueAsString(review);
-        ResultActions postResult = mockMvc.perform(post("/reviews/217")
+        ResultActions postResult = mockMvc.perform(post("/reviews/217/user3")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(serializedReview))
                 .andExpect(status().isNotFound());
@@ -83,11 +83,10 @@ public class ReviewsPostTest {
     @Test
     public void reviewPostTest_StatusForbidden() throws Exception {
         Review review = ReviewStub.getReview();
-        review.setUsername("user1");
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         ObjectMapper objectMapper = new ObjectMapper();
         String serializedReview = objectMapper.writeValueAsString(review);
-        ResultActions postResult = mockMvc.perform(post("/reviews/218")
+        ResultActions postResult = mockMvc.perform(post("/reviews/218/user1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(serializedReview))
                 .andExpect(status().isForbidden());
