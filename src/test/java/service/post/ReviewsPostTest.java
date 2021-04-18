@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import repository.ReviewRepository;
 import stub.review.ReviewStub;
 
+import javax.transaction.Transactional;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -30,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = MovieManagerServiceApplication.class)
 @AutoConfigureMockMvc
 @TestPropertySource("classpath:application-test.properties")
+@Transactional
 public class ReviewsPostTest {
 
     @Autowired

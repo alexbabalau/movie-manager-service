@@ -11,6 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import repository.MovieRepository;
+
+import javax.transaction.Transactional;
+
 import static org.hamcrest.Matchers.*;
 
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@Transactional
 @SpringBootTest(
         classes = MovieManagerServiceApplication.class)
 @AutoConfigureMockMvc

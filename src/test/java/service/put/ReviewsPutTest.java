@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import repository.ReviewRepository;
 import stub.review.ReviewStub;
 
+import javax.transaction.Transactional;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,8 +46,9 @@ public class ReviewsPutTest {
     }
 
     @Test
+    @Transactional
     public void updateReviewTest_StatusNoContent() throws Exception{
-        Review newReview = new Review(1L, 5, new Date(), "Veri nice!", "user1", null, null, null);
+        Review newReview = new Review(1L, 5, new Date(), "Very nice!", "user1", null, null, null);
 
 
         mockMvc.perform(put("/reviews/1/user1")
@@ -63,6 +65,7 @@ public class ReviewsPutTest {
     }
 
     @Test
+    @Transactional
     public void updateReviewTest_StatusNotFound() throws Exception{
         Review newReview = new Review(0L, 5, new Date(), "Veri nice!", "user1", null, null, null);
         mockMvc.perform(put("/reviews/0/user1")

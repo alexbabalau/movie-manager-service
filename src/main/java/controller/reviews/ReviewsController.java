@@ -6,12 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import service.review.delete.ReviewDeleteService;
 import service.review.post.ReviewPostService;
 import service.review.put.ReviewPutService;
-import utils.exceptions.NoAddPermissionException;
-import utils.exceptions.NoEditPermissionException;
-import utils.exceptions.NoSuchMovieException;
-import utils.exceptions.NoSuchReviewException;
+import utils.exceptions.*;
 
 @Controller
 @RequestMapping("/reviews")
@@ -19,11 +17,13 @@ public class ReviewsController {
 
     private ReviewPostService reviewPostService;
     private ReviewPutService reviewPutService;
+    private ReviewDeleteService reviewDeleteService;
 
     @Autowired
-    public ReviewsController(ReviewPostService reviewPostService, ReviewPutService reviewPutService){
+    public ReviewsController(ReviewPostService reviewPostService, ReviewPutService reviewPutService, ReviewDeleteService reviewDeleteService){
         this.reviewPostService = reviewPostService;
         this.reviewPutService = reviewPutService;
+        this.reviewDeleteService = reviewDeleteService;
     }
 
     @PostMapping("/{movieId}/{username}")
@@ -51,6 +51,20 @@ public class ReviewsController {
         }
         catch (NoEditPermissionException ex){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No edit permission for this review");
+        }
+    }
+
+    @DeleteMapping("/{reviewId}/{username}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteReview(@PathVariable String username, @PathVariable Long reviewId){
+        try{
+            reviewDeleteService.deleteReview(reviewId, username);
+        }
+        catch(NoSuchReviewException ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Review not found");
+        }
+        catch(NoDeletePermissionException ex){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No delete permission for this review");
         }
     }
 }
