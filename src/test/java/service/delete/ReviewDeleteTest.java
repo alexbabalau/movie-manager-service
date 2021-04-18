@@ -1,6 +1,7 @@
 package service.delete;
 
 import application.MovieManagerServiceApplication;
+import model.Like;
 import model.Review;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import repository.LikeRepository;
 import repository.ReviewRepository;
+import java.util.List;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,6 +30,9 @@ public class ReviewDeleteTest {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private LikeRepository likeRepository;
 
     @Test
     @Transactional
@@ -64,5 +70,24 @@ public class ReviewDeleteTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
 
+    }
+
+    @Test
+    @Transactional
+    public void likeDeleteTest_StatusNoContent() throws Exception{
+        mockMvc.perform(delete("/likes/1/user1"))
+                .andExpect(status().isNoContent());
+        List<Like> likes = likeRepository.findLikesByReviewIdAnsUsername(1L, "user1");
+        assertNotNull(likes);
+        assertEquals(0, likes.size());
+    }
+
+    @Test
+    @Transactional
+    public void likeDeleteTest_StatusNotFound() throws Exception{
+        mockMvc.perform(delete("/likes/1/user0"))
+                .andExpect(status().isNotFound());
+        mockMvc.perform(delete("/likes/0/user1"))
+                .andExpect(status().isNotFound());
     }
 }

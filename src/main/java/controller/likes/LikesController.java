@@ -1,16 +1,16 @@
 package controller.likes;
 
+import model.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import repository.LikeRepository;
+import service.review.delete.ReviewDeleteService;
 import service.review.post.ReviewPostService;
 import utils.exceptions.NoAddPermissionException;
+import utils.exceptions.NoSuchLikeException;
 import utils.exceptions.NoSuchReviewException;
 
 @Controller
@@ -18,10 +18,12 @@ import utils.exceptions.NoSuchReviewException;
 public class LikesController {
 
     private ReviewPostService reviewPostService;
+    private ReviewDeleteService reviewDeleteService;
 
     @Autowired
-    public LikesController(ReviewPostService reviewPostService){
+    public LikesController(ReviewPostService reviewPostService, ReviewDeleteService reviewDeleteService){
         this.reviewPostService = reviewPostService;
+        this.reviewDeleteService = reviewDeleteService;
     }
 
     @PostMapping("/{reviewId}/{username}")
@@ -35,6 +37,17 @@ public class LikesController {
         }
         catch(NoSuchReviewException ex){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Review not found", ex);
+        }
+    }
+
+    @DeleteMapping("/{reviewId}/{username}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteLike(@PathVariable Long reviewId, @PathVariable String username){
+        try{
+            reviewDeleteService.deleteLike(reviewId, username);
+        }
+        catch(NoSuchLikeException ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Like not found", ex);
         }
     }
 }
