@@ -39,7 +39,7 @@ public class ReviewGetterService {
     }
 
     @Transactional
-    public List<Long> getReviewsIdFromMovieAndUsername(Long movieId, String username){
+    public List<Long> getLikesReviewsIdFromMovieAndUsername(Long movieId, String username){
         Optional<Movie> movieOptional = movieRepository.findById(movieId);
         if(!movieOptional.isPresent())
             throw new NoSuchMovieException();
