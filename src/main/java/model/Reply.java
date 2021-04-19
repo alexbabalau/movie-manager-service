@@ -31,7 +31,7 @@ public class Reply {
     private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reply_id")
+    @JoinColumn(name = "review_id")
     @JsonIgnore
     private Review review;
 

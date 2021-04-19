@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import service.reply.ReplyService;
+import utils.exceptions.NoDeletePermissionException;
+import utils.exceptions.NoSuchReplyException;
 import utils.exceptions.NoSuchReviewException;
 
 @Controller
@@ -28,6 +30,20 @@ public class ReplyController {
         }
         catch (NoSuchReviewException ex){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Review not found");
+        }
+    }
+
+    @DeleteMapping("/{replyId}/{username}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteReply(@PathVariable Long replyId, @PathVariable String username){
+        try{
+            replyService.deleteReply(replyId, username);
+        }
+        catch(NoSuchReplyException ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reply not found");
+        }
+        catch (NoDeletePermissionException ex){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Reply deletion not permitted");
         }
     }
 
