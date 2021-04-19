@@ -46,7 +46,7 @@ public class MovieGetterService {
     private List<MovieCompressed> getMovieCompressedListFromGenresAndPageable(String genresListString, Pageable pageable) {
         if(genresListString.isEmpty())
             return compressedMovieList(movieRepository.findAll(pageable).toList());
-        List<Genre> genres = genreListRetriever.getGenresFromString(genresListString);
+        List<String> genres = genreListRetriever.getGenresFromString(genresListString);
 
         return compressedMovieList(movieRepository.findByGenresContaining(genres,  (long) genres.size(), pageable).toList());
     }

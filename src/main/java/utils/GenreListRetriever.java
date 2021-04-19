@@ -22,14 +22,14 @@ public class GenreListRetriever {
         this.genreRepository = genreRepository;
     }
 
-    public List<Genre> getGenresFromString(String genres){
+    public List<String> getGenresFromString(String genres){
         List<String> genreList = Arrays.asList(genres.split(","));
         List<Genre> retrievedGenres = genreRepository.findByNameIn(genreList);
         if(retrievedGenres.size() != genreList.size()){
             logger.error("Retrieved Genres: " + retrievedGenres.toString() + ", Genre List: " + genreList);
             throw new NoSuchGenreException();
         }
-        return retrievedGenres;
+        return genreList;
     }
 
 }
