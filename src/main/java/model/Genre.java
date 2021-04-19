@@ -23,7 +23,7 @@ import java.util.Set;
 public class Genre {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;

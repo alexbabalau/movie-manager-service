@@ -16,12 +16,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Like {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
+    @JsonIgnore
     private Review review;
 }

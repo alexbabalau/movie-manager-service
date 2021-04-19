@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -56,6 +57,10 @@ public class MovieCompressed {
 
     @JsonProperty("vote_average")
     private Double voteAverage;
+
+    public String getReleaseDateWithFormat(DateFormat dateFormat){
+        return dateFormat.format(releaseDate);
+    }
 
     @Override
     public String toString() {

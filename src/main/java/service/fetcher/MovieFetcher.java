@@ -36,7 +36,7 @@ public class MovieFetcher {
 
     private List<Actor> getActorsFromCreditResponse(CreditsResponse creditsResponse){
         List<Actor> actors = new ArrayList<>();
-        for(TmdbActor tmdbActor : creditsResponse.getCrew()){
+        for(TmdbActor tmdbActor : creditsResponse.getCast()){
             Optional<Actor> persistedActor = actorRepository.findByTmdbId(tmdbActor.getId());
             actors.add(persistedActor.orElse(new Actor(tmdbActor)));
         }
