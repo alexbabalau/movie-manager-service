@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
 
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,7 +34,8 @@ public class ReviewsListGetterTest {
               .andExpect(status().isOk())
               .andExpect(content()
               .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-              .andExpect(jsonPath("$", hasSize(2)));
+              .andExpect(jsonPath("$", hasSize(2)))
+              .andExpect(jsonPath("$[*].replies[*].content", contains("Nice review")));
     }
     @Test
     public void testReviewsListGetter_StatusNotFound() throws Exception {
