@@ -17,4 +17,5 @@ public interface MovieRepository extends PagingAndSortingRepository<Movie, Long>
     List<Movie> findByGenresIn(List<Genre> genres);
     @Query("SELECT m FROM Movie m WHERE m.id IN (select m.id from Movie m join m.genres g where g.name in :genres group by m.id having count(m.id) = :size)")
     Page<Movie> findByGenresContaining(List<String> genres, Long size, Pageable pageable);
+    Page<Movie> findByTitleContainingIgnoreCase(String searchEntry, Pageable pageable);
 }

@@ -19,7 +19,7 @@ import java.util.Date;
 public class Reply {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
