@@ -14,6 +14,6 @@ public class MovieManagerServiceApplication {
 		ApplicationContext context = SpringApplication.run(MovieManagerServiceApplication.class, args);
 		MovieFetcher movieFetcher = context.getBean(MovieFetcher.class);
 		movieFetcher.saveGenres();
-		movieFetcher.saveMoviesByYear(2020, 5);
+		movieFetcher.saveMoviesByYear(2020, 24);
 	}
 }

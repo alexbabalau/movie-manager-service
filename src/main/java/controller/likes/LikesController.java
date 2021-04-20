@@ -13,7 +13,7 @@ import utils.exceptions.NoAddPermissionException;
 import utils.exceptions.NoSuchLikeException;
 import utils.exceptions.NoSuchReviewException;
 
-@Controller
+@RestController
 @RequestMapping("/likes")
 public class LikesController {
 
