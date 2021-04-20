@@ -1,6 +1,7 @@
 package service.watchlist;
 
 import model.Movie;
+import model.MovieCompressed;
 import model.Watchlist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,8 +11,11 @@ import utils.exceptions.NoSuchMovieException;
 import utils.exceptions.WatchlistEntryNotFoundException;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service("watchlistService")
 public class WatchlistService {
@@ -58,6 +62,16 @@ public class WatchlistService {
         }
         watchlist.removeMovie(movie);
         watchlistRepository.save(watchlist);
+    }
+
+    @Transactional
+    public List<MovieCompressed> getWatchlistForUser(String username){
+        Optional<Watchlist> watchlistOptional = watchlistRepository.findFirstByUsername(username);
+        if(!watchlistOptional.isPresent())
+            return Collections.emptyList();
+        Watchlist watchlist = watchlistOptional.orElse(null);
+        Set<Movie> movies = watchlist.getMovies();
+        return movies.stream().map(movie -> new MovieCompressed(movie)).collect(Collectors.toList());
     }
 
 }

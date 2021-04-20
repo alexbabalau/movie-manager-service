@@ -1,5 +1,6 @@
 package controller.watchlist;
 
+import model.MovieCompressed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,9 @@ import service.watchlist.WatchlistService;
 import utils.exceptions.NoSuchMovieException;
 import utils.exceptions.WatchlistEntryNotFoundException;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequestMapping("/watchlist")
 public class WatchlistController {
 
@@ -40,6 +43,12 @@ public class WatchlistController {
         catch(WatchlistEntryNotFoundException ex){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Watchlist entry not found");
         }
+    }
+
+    @GetMapping("/{username}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<MovieCompressed> getUserWatchlist(@PathVariable String username){
+        return watchlistService.getWatchlistForUser(username);
     }
 
 }

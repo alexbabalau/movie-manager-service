@@ -11,7 +11,7 @@ import utils.exceptions.NoDeletePermissionException;
 import utils.exceptions.NoSuchReplyException;
 import utils.exceptions.NoSuchReviewException;
 
-@Controller
+@RestController
 @RequestMapping("/replies")
 public class ReplyController {
 

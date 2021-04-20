@@ -11,7 +11,7 @@ import service.review.post.ReviewPostService;
 import service.review.put.ReviewPutService;
 import utils.exceptions.*;
 
-@Controller
+@RestController
 @RequestMapping("/reviews")
 public class ReviewsController {
 
