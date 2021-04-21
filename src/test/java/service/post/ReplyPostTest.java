@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import repository.ReplyRepository;
 import stub.review.ReviewStub;
 
+import javax.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -40,6 +41,7 @@ public class ReplyPostTest {
     private ReplyRepository replyRepository;
 
     @Test
+    @Transactional
     public void addReply_StatusOk() throws Exception {
         Reply reply = new Reply(null, "user2", "Nice review", new Date(), null);
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -68,6 +70,7 @@ public class ReplyPostTest {
     }
 
     @Test
+    @Transactional
     public void addReply_StatusNotFound() throws Exception {
         Reply reply = new Reply(null, "user2", "Nice review", new Date(), null);
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");

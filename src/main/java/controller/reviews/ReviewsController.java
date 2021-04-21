@@ -13,6 +13,7 @@ import utils.exceptions.*;
 
 @RestController
 @RequestMapping("/reviews")
+@CrossOrigin
 public class ReviewsController {
 
     private ReviewPostService reviewPostService;

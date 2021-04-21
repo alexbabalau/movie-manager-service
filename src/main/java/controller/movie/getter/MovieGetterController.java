@@ -30,37 +30,46 @@ public class MovieGetterController {
 
     @GetMapping("/newest/{page}")
     @ResponseStatus(HttpStatus.OK)
-    public List<MovieCompressed> getNewestMoviesByPage(@PathVariable Integer page, @RequestParam(required = false, defaultValue = "") String genres){
+    public List<MovieCompressed> getNewestMoviesByPage(@PathVariable Integer page, @RequestParam(required = false, defaultValue = "") String genres, @RequestParam(required = false, defaultValue = "", name = "minRating") String minRatingString){
         try{
-            return movieGetterService.getMoviesSortedByDate(page, genres);
+            return movieGetterService.getMoviesSortedByDate(page, genres, minRatingString);
         }
         catch(NoSuchGenreException ex){
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Invalid genre", ex);
+        }
+        catch (NumberFormatException ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Min Rating", ex);
         }
     }
 
     @GetMapping("/topRated/{page}")
     @ResponseStatus(HttpStatus.OK)
-    public List<MovieCompressed> getTopRatedMoviesByPage(@PathVariable Integer page, @RequestParam(required = false, defaultValue = "") String genres){
+    public List<MovieCompressed> getTopRatedMoviesByPage(@PathVariable Integer page, @RequestParam(required = false, defaultValue = "") String genres,  @RequestParam(required = false, defaultValue = "", name = "minRating") String minRatingString){
         try{
-            return movieGetterService.getMoviesSortedByRating(page, genres);
+            return movieGetterService.getMoviesSortedByRating(page, genres, minRatingString);
         }
         catch(NoSuchGenreException ex){
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Invalid genre", ex);
+        }
+        catch (NumberFormatException ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Min Rating", ex);
         }
     }
 
     @GetMapping("/byTitle/{page}")
     @ResponseStatus(HttpStatus.OK)
-    public List<MovieCompressed> getByTitleMoviesByPage(@PathVariable Integer page, @RequestParam(required = false, defaultValue = "") String genres){
+    public List<MovieCompressed> getByTitleMoviesByPage(@PathVariable Integer page, @RequestParam(required = false, defaultValue = "") String genres,  @RequestParam(required = false, defaultValue = "", name = "minRating") String minRatingString){
         try{
-            return movieGetterService.getMoviesSortedByTitle(page, genres);
+            return movieGetterService.getMoviesSortedByTitle(page, genres, minRatingString);
         }
         catch(NoSuchGenreException ex){
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Invalid genre", ex);
+        }
+        catch (NumberFormatException ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Min Rating", ex);
         }
     }
 
