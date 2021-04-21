@@ -45,6 +45,19 @@ public class MovieListGetterTest {
         .andExpect(jsonPath("$[1].title", is("Mortal Kombat Legends: Scorpion's Revenge")))
                 .andExpect(jsonPath("$[2].title", is("Wonder Woman 1984")));
     }
+
+    @Test
+    public void movieByTitleWithGenresAndMinRatingGetterTest_StatusOk() throws Exception {
+        mockMvc.perform(get("/movies/byTitle/0?genres=Action&minRating=2.0")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[*]", hasSize(2)))
+                .andExpect(jsonPath("$[0].title", is("Monster Hunter")))
+                .andExpect(jsonPath("$[1].title", is("Mortal Kombat Legends: Scorpion's Revenge")));
+    }
+
     @Test
     public void movieByTitleGetterTest_StatusBadRequest() throws Exception {
         mockMvc.perform(get("/movies/byTitle/0?genres=Actionnn")
@@ -62,6 +75,18 @@ public class MovieListGetterTest {
                 .andExpect(jsonPath("$[2].title", is("Mortal Kombat Legends: Scorpion's Revenge")))
                 .andExpect(jsonPath("$[0].title", is("Wonder Woman 1984")));
     }
+
+    @Test
+    public void movieByDateWithGenresAndMinRatingGetterTest_StatusOk() throws Exception {
+        mockMvc.perform(get("/movies/newest/0?genres=Action&minRating=2.0")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].title", is("Monster Hunter")))
+                .andExpect(jsonPath("$[1].title", is("Mortal Kombat Legends: Scorpion's Revenge")));
+    }
+
     @Test
     public void movieByDateGetterTest_StatusBadRequest() throws Exception {
         mockMvc.perform(get("/movies/newest/0?genres=Actionnnn")
@@ -100,10 +125,28 @@ public class MovieListGetterTest {
                 .andExpect(jsonPath("$[2].title", is("Wonder Woman 1984")));
     }
 
+    @Test
+    public void movieByRatingWithGenresAndMinRatingGetterTest_StatusOk() throws Exception {
+        mockMvc.perform(get("/movies/topRated/0?genres=Action&minRating=2.0")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[*]", hasSize(2)))
+                .andExpect(jsonPath("$[1].title", is("Monster Hunter")))
+                .andExpect(jsonPath("$[0].title", is("Mortal Kombat Legends: Scorpion's Revenge")));
+    }
 
     @Test
     public void movieByRatingGetterTest_StatusBadRequest() throws Exception {
         mockMvc.perform(get("/movies/topRated/0?genres=Actionnnn")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void movieByRatingGetterTestWrongMinRating_StatusBadRequest() throws Exception{
+        mockMvc.perform(get("/movies/topRated/0?genres=Action&minRating=alex")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
