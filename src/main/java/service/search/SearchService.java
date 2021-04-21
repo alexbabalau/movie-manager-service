@@ -28,9 +28,20 @@ public class SearchService {
         this.movieRepository = movieRepository;
     }
 
+    private List <MovieCompressed> toMovieCompressedList(List<Movie> movies){
+        return movies.stream().map(MovieCompressed::new).collect(Collectors.toList());
+    }
+
+    public List<MovieCompressed> searchMoviesByActor(String searchedActor, Integer page){
+        Pageable pageable = PageRequest.of(page, itemsPerPage, Sort.by("movieRating.rating"));
+        return toMovieCompressedList(movieRepository.findByActorNameContaining(searchedActor, pageable).toList());
+    }
+
     public List<MovieCompressed> searchMoviesByTitle(String searchedTitle, Integer page){
         Pageable pageable = PageRequest.of(page, itemsPerPage, Sort.by("movieRating.rating"));
-        return movieRepository.findByTitleContainingIgnoreCase(searchedTitle, pageable).toList().stream().map(MovieCompressed::new).collect(Collectors.toList());
+        return toMovieCompressedList(movieRepository.findByTitleContainingIgnoreCase(searchedTitle, pageable).toList());
     }
+
+
 
 }

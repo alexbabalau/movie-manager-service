@@ -18,4 +18,6 @@ public interface MovieRepository extends PagingAndSortingRepository<Movie, Long>
     @Query("SELECT m FROM Movie m WHERE m.id IN (select m.id from Movie m join m.genres g where g.name in :genres group by m.id having count(m.id) = :size)")
     Page<Movie> findByGenresContaining(List<String> genres, Long size, Pageable pageable);
     Page<Movie> findByTitleContainingIgnoreCase(String searchEntry, Pageable pageable);
+    @Query("select m from Movie m WHERE m.id IN (select m.id FROM Movie m join m.actors a where LOWER(a.name) like LOWER(concat('%',  concat(:actorSearch, '%'))))")
+    Page<Movie> findByActorNameContaining(String actorSearch, Pageable pageable);
 }

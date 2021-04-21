@@ -22,9 +22,13 @@ public class SearchController {
         this.searchService = searchService;
     }
 
-    @GetMapping("/{title}/{page}")
+    @GetMapping("/title/{title}/{page}")
     public List<MovieCompressed> getMoviesByTitle(@PathVariable String title, @PathVariable Integer page){
         return searchService.searchMoviesByTitle(title, page);
     }
 
+    @GetMapping("/actor/{actor}/{page}")
+    public List<MovieCompressed> getMoviesByActor(@PathVariable String actor, @PathVariable Integer page){
+        return searchService.searchMoviesByActor(actor, page);
+    }
 }
