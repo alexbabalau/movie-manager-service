@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/watchlist")
+@CrossOrigin
 public class WatchlistController {
 
     private WatchlistService watchlistService;
@@ -21,6 +22,12 @@ public class WatchlistController {
     @Autowired
     public WatchlistController(WatchlistService watchlistService){
         this.watchlistService = watchlistService;
+    }
+
+    @GetMapping("/exists/{movieId}/{username}")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody  Boolean hasMovieInWatchlist(@PathVariable Long movieId, @PathVariable String username){
+        return watchlistService.hasMovieInWatchlist(movieId, username);
     }
 
     @PostMapping("/{movieId}/{username}")

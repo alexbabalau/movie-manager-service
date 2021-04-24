@@ -32,4 +32,19 @@ public class WatchlistGetterTest {
                 .andExpect(jsonPath("$[0].id", is(20)));
     }
 
+    @Test
+    public void hasMovieInWatchlistTestTrue_StatusOk() throws Exception{
+        mockMvc.perform(get("/watchlist/exists/20/user1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
+    }
+
+    @Test
+    public void hasMovieInWatchlistTestFalse_StatusOk() throws Exception{
+        mockMvc.perform(get("/watchlist/exists/21/user1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string("false"));
+    }
 }
