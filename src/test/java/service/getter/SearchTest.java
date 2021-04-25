@@ -27,7 +27,7 @@ public class SearchTest {
 
     @Test
     public void searchByTitleTest() throws Exception {
-        mockMvc.perform(get("/search/title/wonder/0"))
+        mockMvc.perform(get("/search/title?title=wonder&page=0"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(1)))
@@ -36,7 +36,7 @@ public class SearchTest {
 
     @Test
     public void searchByActorTest() throws Exception {
-        mockMvc.perform(get("/search/actor/gadot/0"))
+        mockMvc.perform(get("/search/actor?actor=gadot&page=0"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(1)))

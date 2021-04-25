@@ -74,4 +74,14 @@ public class WatchlistService {
         return movies.stream().map(movie -> new MovieCompressed(movie)).collect(Collectors.toList());
     }
 
+    @Transactional
+    public boolean hasMovieInWatchlist(Long movieId, String username){
+        Optional<Watchlist> watchlistOptional = watchlistRepository.findFirstByUsername(username);
+        if(!watchlistOptional.isPresent())
+            return false;
+        Watchlist watchlist = watchlistOptional.orElse(null);
+        Set<Movie> movies = watchlist.getMovies();
+        return movies.stream().filter(movie -> movie.getId().equals(movieId)).findFirst().isPresent();
+    }
+
 }
