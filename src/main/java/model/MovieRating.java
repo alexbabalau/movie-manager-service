@@ -26,6 +26,6 @@ public class MovieRating {
     private Long id;
 
     @JsonSerialize(using = RatingSerializer.class)
-    private BigDecimal rating;
+    private Double rating;
 
 }
