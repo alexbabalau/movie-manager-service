@@ -13,6 +13,7 @@ import utils.exceptions.NoSuchReviewException;
 
 @RestController
 @RequestMapping("/replies")
+@CrossOrigin
 public class ReplyController {
 
     private ReplyService replyService;
