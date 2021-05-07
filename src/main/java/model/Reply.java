@@ -24,6 +24,7 @@ public class Reply {
 
     private String username;
 
+    @Lob
     private String content;
 
     @JsonFormat

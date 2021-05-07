@@ -105,4 +105,10 @@ public class MovieGetterController {
         }
     }
 
+    @GetMapping("/recommended/{username}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<MovieCompressed> getRecommendedMovies(@PathVariable String username){
+        return movieGetterService.getMoviesSortedByDate(0, "", "");
+    }
+
 }
