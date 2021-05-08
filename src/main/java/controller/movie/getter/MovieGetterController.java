@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import service.movie.getter.MovieGetterService;
+import service.movie.getter.RecommenderService;
 import service.review.getter.ReviewGetterService;
 import utils.exceptions.NoSuchGenreException;
 import utils.exceptions.NoSuchMovieException;
@@ -21,11 +22,13 @@ public class MovieGetterController {
 
     private MovieGetterService movieGetterService;
     private ReviewGetterService reviewGetterService;
+    private RecommenderService recommenderService;
 
     @Autowired
-    public MovieGetterController(MovieGetterService movieGetterService, ReviewGetterService reviewGetterService){
+    public MovieGetterController(MovieGetterService movieGetterService, ReviewGetterService reviewGetterService, RecommenderService recommenderService){
         this.movieGetterService = movieGetterService;
         this.reviewGetterService = reviewGetterService;
+        this.recommenderService = recommenderService;
     }
 
     @GetMapping("/newest/{page}")
@@ -108,7 +111,7 @@ public class MovieGetterController {
     @GetMapping("/recommended/{username}")
     @ResponseStatus(HttpStatus.OK)
     public List<MovieCompressed> getRecommendedMovies(@PathVariable String username){
-        return movieGetterService.getMoviesSortedByDate(0, "", "");
+        return recommenderService.recommendMovies(username);
     }
 
 }

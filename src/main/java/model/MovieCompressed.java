@@ -9,6 +9,8 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -35,5 +37,9 @@ public class MovieCompressed {
         this.title = movie.getTitle();
         this.releaseDate = movie.getReleaseDate();
         this.imagePath = movie.getImagePath();
+    }
+
+    public static List<MovieCompressed> compressedMovieListFromMovies(List<Movie> movies){
+        return movies.stream().map(MovieCompressed::new).collect(Collectors.toList());
     }
 }

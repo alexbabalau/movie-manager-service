@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service("movieGetter")
-@PropertySource("classpath:/app-response.properties")
+@PropertySource("classpath:/app-service.properties")
 public class MovieGetterService {
 
     @Value("${response.items.per.page}")

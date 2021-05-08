@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service("searchService")
-@PropertySource("classpath:app-response.properties")
+@PropertySource("classpath:app-service.properties")
 public class SearchService {
 
     @Value("${response.items.per.page}")

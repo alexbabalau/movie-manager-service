@@ -7,6 +7,7 @@ import service.fetcher.MovieFetcher;
 
 @RestController
 @RequestMapping("/fetch")
+@CrossOrigin
 public class FetcherRestController {
 
     private MovieFetcher movieFetcher;
