@@ -36,6 +36,13 @@ public class MovieGetterService {
         this.genreListRetriever = genreListRetriever;
     }
 
+    @Transactional
+    public List<String> getNewlyAddedTitles(int page){
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Order.desc("addedDate").nullsLast()));
+        List<Movie> movies = movieRepository.findAll(pageable).toList();
+        return movies.stream().map(Movie::getTitle).collect(Collectors.toList());
+    }
+
     private List<MovieCompressed> compressedMovieList(List<Movie> movies){
         return movies.stream().map(MovieCompressed::new).collect(Collectors.toList());
     }
