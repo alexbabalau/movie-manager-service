@@ -12,6 +12,7 @@ import service.review.post.ReviewPostService;
 import utils.exceptions.NoAddPermissionException;
 import utils.exceptions.NoSuchLikeException;
 import utils.exceptions.NoSuchReviewException;
+import utils.security.Allowed;
 
 @RestController
 @RequestMapping("/likes")
@@ -28,7 +29,8 @@ public class LikesController {
 
     @PostMapping("/{reviewId}/{username}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addLike(@PathVariable Long reviewId, @PathVariable String username){
+    @Allowed
+    public void addLike(@PathVariable Long reviewId, @PathVariable String username, @RequestHeader("AuthorizationToken") String token){
         try{
             reviewPostService.addLikeToReview(reviewId, username);
         }
@@ -42,7 +44,8 @@ public class LikesController {
 
     @DeleteMapping("/{reviewId}/{username}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteLike(@PathVariable Long reviewId, @PathVariable String username){
+    @Allowed
+    public void deleteLike(@PathVariable Long reviewId, @PathVariable String username, @RequestHeader("AuthorizationToken") String token){
         try{
             reviewDeleteService.deleteLike(reviewId, username);
         }

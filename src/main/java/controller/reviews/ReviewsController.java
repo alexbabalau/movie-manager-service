@@ -10,6 +10,7 @@ import service.review.delete.ReviewDeleteService;
 import service.review.post.ReviewPostService;
 import service.review.put.ReviewPutService;
 import utils.exceptions.*;
+import utils.security.Allowed;
 
 @RestController
 @RequestMapping("/reviews")
@@ -29,7 +30,8 @@ public class ReviewsController {
 
     @PostMapping("/{movieId}/{username}")
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody Review addReview(@PathVariable Long movieId, @RequestBody Review review, @PathVariable String username){
+    @Allowed
+    public @ResponseBody Review addReview(@PathVariable Long movieId, @RequestBody Review review, @PathVariable String username, @RequestHeader("AuthorizationToken") String token){
         try{
             return reviewPostService.addReview(review, movieId, username);
         }
@@ -43,7 +45,8 @@ public class ReviewsController {
 
     @PutMapping("/{reviewId}/{username}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateReview(@PathVariable String username, @RequestBody Review newReview, @PathVariable Long reviewId){
+    @Allowed
+    public void updateReview(@PathVariable String username, @RequestBody Review newReview, @PathVariable Long reviewId, @RequestHeader("AuthorizationToken") String token){
         try{
             reviewPutService.updateReview(newReview, username, reviewId);
         }
@@ -57,7 +60,8 @@ public class ReviewsController {
 
     @DeleteMapping("/{reviewId}/{username}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteReview(@PathVariable String username, @PathVariable Long reviewId){
+    @Allowed
+    public void deleteReview(@PathVariable String username, @PathVariable Long reviewId, @RequestHeader("AuthorizationToken") String token){
         try{
             reviewDeleteService.deleteReview(reviewId, username);
         }

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -28,18 +29,21 @@ public class EmailService {
     }
 
     public void sendEmailToUser(String username, EmailWithNoAddress email){
-        /*ResponseEntity<Object> response = restTemplate.postForEntity(emailServiceUrl + "/api/mail/" + username, email, Object.class);
+        logger.info(emailServiceUrl + "/api/mail/" + username);
+        HttpEntity<EmailWithNoAddress> request = new HttpEntity<>(email);
+        ResponseEntity<Object> response = restTemplate.postForEntity(emailServiceUrl + "/api/mail/" + username, request, Object.class);
         if(response.getStatusCode().isError()){
             logger.error("Error at sending email to username "+ username + "; response: " + response);
-        }*/
+        }
         logger.info("Email sent to " + username);
+        logger.info("Response: " + response);
     }
 
     public void sendNewsletter(EmailWithNoAddress email){
-        /*ResponseEntity<Object> response = restTemplate.postForEntity(emailServiceUrl + "/api/mail/newsletter", email, Object.class);
+        ResponseEntity<Object> response = restTemplate.postForEntity(emailServiceUrl + "/api/mail/newsletter", email, Object.class);
         if(response.getStatusCode().isError()){
             logger.error("Error at sending newsletter; response: " + response);
-        }*/
+        }
         logger.info("Newsletter sent");
     }
 

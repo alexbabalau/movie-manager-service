@@ -12,6 +12,7 @@ import service.movie.getter.RecommenderService;
 import service.review.getter.ReviewGetterService;
 import utils.exceptions.NoSuchGenreException;
 import utils.exceptions.NoSuchMovieException;
+import utils.security.Allowed;
 
 import java.util.List;
 
@@ -99,7 +100,8 @@ public class MovieGetterController {
 
     @GetMapping("/{movieId}/likes/{username}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Long> getLikeReviewsIdByMovieIdAndUsername(@PathVariable Long movieId, @PathVariable String username){
+    @Allowed
+    public List<Long> getLikeReviewsIdByMovieIdAndUsername(@PathVariable Long movieId, @PathVariable String username, @RequestHeader("AuthorizationToken") String token){
         try{
             return reviewGetterService.getLikesReviewsIdFromMovieAndUsername(movieId, username);
         }
@@ -110,7 +112,8 @@ public class MovieGetterController {
 
     @GetMapping("/recommended/{username}")
     @ResponseStatus(HttpStatus.OK)
-    public List<MovieCompressed> getRecommendedMovies(@PathVariable String username){
+    @Allowed
+    public List<MovieCompressed> getRecommendedMovies(@PathVariable String username, @RequestHeader("AuthorizationToken") String token){
         return recommenderService.recommendMovies(username);
     }
 
