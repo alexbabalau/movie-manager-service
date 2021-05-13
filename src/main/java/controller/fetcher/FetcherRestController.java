@@ -21,14 +21,14 @@ public class FetcherRestController {
     @GetMapping("/movies/{year}/{limit}")
     @ResponseStatus(HttpStatus.CREATED)
     @Allowed
-    public void fetchMovies(@PathVariable Integer year, @PathVariable Integer limit, @RequestHeader("AuthorizationToken") String token){
+    public void fetchMovies(@PathVariable Integer year, @PathVariable Integer limit, @RequestHeader("authorization") String token){
         movieFetcher.saveMoviesByYear(year, limit);
     }
 
     @GetMapping("/genres")
     @ResponseStatus(HttpStatus.CREATED)
     @Allowed
-    public void fetchGenres(@RequestHeader("AuthorizationToken") String token){
+    public void fetchGenres(@RequestHeader("authorization") String token){
         movieFetcher.saveGenres();
     }
 

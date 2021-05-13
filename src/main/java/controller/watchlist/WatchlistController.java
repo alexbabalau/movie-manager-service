@@ -28,14 +28,14 @@ public class WatchlistController {
     @GetMapping("/exists/{movieId}/{username}")
     @ResponseStatus(HttpStatus.OK)
     @Allowed
-    public @ResponseBody  Boolean hasMovieInWatchlist(@PathVariable Long movieId, @PathVariable String username, @RequestHeader("AuthorizationToken") String token){
+    public @ResponseBody  Boolean hasMovieInWatchlist(@PathVariable Long movieId, @PathVariable String username, @RequestHeader("authorization") String token){
         return watchlistService.hasMovieInWatchlist(movieId, username);
     }
 
     @PostMapping("/{movieId}/{username}")
     @ResponseStatus(HttpStatus.CREATED)
     @Allowed
-    public void addMovieToWatchlist(@PathVariable Long movieId, @PathVariable String username, @RequestHeader("AuthorizationToken") String token){
+    public void addMovieToWatchlist(@PathVariable Long movieId, @PathVariable String username, @RequestHeader("authorization") String token){
         try{
             watchlistService.addMovie(movieId, username);
         }
@@ -47,7 +47,7 @@ public class WatchlistController {
     @DeleteMapping("/{movieId}/{username}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Allowed
-    public void removeMovieFromWatchlist(@PathVariable Long movieId, @PathVariable String username, @RequestHeader("AuthorizationToken") String token){
+    public void removeMovieFromWatchlist(@PathVariable Long movieId, @PathVariable String username, @RequestHeader("authorization") String token){
         try{
             watchlistService.deleteMovie(movieId, username);
         }
@@ -59,7 +59,7 @@ public class WatchlistController {
     @GetMapping("/{username}")
     @ResponseStatus(HttpStatus.OK)
     @Allowed
-    public List<MovieCompressed> getUserWatchlist(@PathVariable String username, @RequestHeader("AuthorizationToken") String token){
+    public List<MovieCompressed> getUserWatchlist(@PathVariable String username, @RequestHeader("authorization") String token){
         return watchlistService.getWatchlistForUser(username);
     }
 

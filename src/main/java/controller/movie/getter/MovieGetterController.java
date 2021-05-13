@@ -101,7 +101,7 @@ public class MovieGetterController {
     @GetMapping("/{movieId}/likes/{username}")
     @ResponseStatus(HttpStatus.OK)
     @Allowed
-    public List<Long> getLikeReviewsIdByMovieIdAndUsername(@PathVariable Long movieId, @PathVariable String username, @RequestHeader("AuthorizationToken") String token){
+    public List<Long> getLikeReviewsIdByMovieIdAndUsername(@PathVariable Long movieId, @PathVariable String username, @RequestHeader("authorization") String token){
         try{
             return reviewGetterService.getLikesReviewsIdFromMovieAndUsername(movieId, username);
         }
@@ -113,7 +113,7 @@ public class MovieGetterController {
     @GetMapping("/recommended/{username}")
     @ResponseStatus(HttpStatus.OK)
     @Allowed
-    public List<MovieCompressed> getRecommendedMovies(@PathVariable String username, @RequestHeader("AuthorizationToken") String token){
+    public List<MovieCompressed> getRecommendedMovies(@PathVariable String username, @RequestHeader("authorization") String token){
         return recommenderService.recommendMovies(username);
     }
 

@@ -27,7 +27,7 @@ public class ReplyController {
     @PostMapping("/{reviewId}/{username}")
     @ResponseStatus(HttpStatus.OK)
     @Allowed
-    public @ResponseBody Reply addReply(@PathVariable Long reviewId, @PathVariable String username, @RequestBody Reply reply, @RequestHeader("AuthorizationToken") String token){
+    public @ResponseBody Reply addReply(@PathVariable Long reviewId, @PathVariable String username, @RequestBody Reply reply, @RequestHeader("authorization") String token){
         try{
             return replyService.addReply(reviewId, reply, username);
         }
@@ -39,7 +39,7 @@ public class ReplyController {
     @DeleteMapping("/{replyId}/{username}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Allowed
-    public void deleteReply(@PathVariable Long replyId, @PathVariable String username, @RequestHeader("AuthorizationToken") String token){
+    public void deleteReply(@PathVariable Long replyId, @PathVariable String username, @RequestHeader("authorization") String token){
         try{
             replyService.deleteReply(replyId, username);
         }

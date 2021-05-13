@@ -10,6 +10,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import utils.exceptions.SendEmailFailedException;
 
@@ -31,7 +33,14 @@ public class EmailService {
     public void sendEmailToUser(String username, EmailWithNoAddress email){
         logger.info(emailServiceUrl + "/api/mail/" + username);
         HttpEntity<EmailWithNoAddress> request = new HttpEntity<>(email);
-        ResponseEntity<Object> response = restTemplate.postForEntity(emailServiceUrl + "/api/mail/" + username, request, Object.class);
+        ResponseEntity<Object> response = null;
+        try{
+            response = restTemplate.postForEntity(emailServiceUrl + "/api/mail/" + username, request, Object.class);
+        }
+        catch(HttpServerErrorException e){
+            e.printStackTrace();
+            return;
+        }
         if(response.getStatusCode().isError()){
             logger.error("Error at sending email to username "+ username + "; response: " + response);
         }
@@ -40,7 +49,16 @@ public class EmailService {
     }
 
     public void sendNewsletter(EmailWithNoAddress email){
-        ResponseEntity<Object> response = restTemplate.postForEntity(emailServiceUrl + "/api/mail/newsletter", email, Object.class);
+
+        ResponseEntity<Object> response = null;
+        try{
+            response = restTemplate.postForEntity(emailServiceUrl + "/api/mail/newsletter", email, Object.class);
+        }
+        catch(HttpServerErrorException e){
+            e.printStackTrace();
+            return;
+        }
+
         if(response.getStatusCode().isError()){
             logger.error("Error at sending newsletter; response: " + response);
         }

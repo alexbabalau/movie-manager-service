@@ -30,7 +30,7 @@ public class LikesController {
     @PostMapping("/{reviewId}/{username}")
     @ResponseStatus(HttpStatus.CREATED)
     @Allowed
-    public void addLike(@PathVariable Long reviewId, @PathVariable String username, @RequestHeader("AuthorizationToken") String token){
+    public void addLike(@PathVariable Long reviewId, @PathVariable String username, @RequestHeader("authorization") String token){
         try{
             reviewPostService.addLikeToReview(reviewId, username);
         }
@@ -45,7 +45,7 @@ public class LikesController {
     @DeleteMapping("/{reviewId}/{username}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Allowed
-    public void deleteLike(@PathVariable Long reviewId, @PathVariable String username, @RequestHeader("AuthorizationToken") String token){
+    public void deleteLike(@PathVariable Long reviewId, @PathVariable String username, @RequestHeader("authorization") String token){
         try{
             reviewDeleteService.deleteLike(reviewId, username);
         }

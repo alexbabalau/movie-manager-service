@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import repository.WatchlistRepository;
@@ -27,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = MovieManagerServiceApplication.class)
 @AutoConfigureMockMvc
 @TestPropertySource("classpath:application-test.properties")
+@ActiveProfiles("test")
 public class WatchlistPostTest {
 
     @Autowired
@@ -38,7 +40,8 @@ public class WatchlistPostTest {
     @Test
     @Transactional
     public void addMovieToWatchlistTest_StatusCreated() throws Exception {
-        mockMvc.perform(post("/watchlist/20/user2"))
+        mockMvc.perform(post("/watchlist/20/user2")
+                .header("authorization", "mockToken"))
                 .andExpect(status().isCreated());
         Optional<Watchlist> watchlistOptional = watchlistRepository.findFirstByUsername("user2");
         Watchlist watchlist = watchlistOptional.orElse(null);
@@ -52,7 +55,8 @@ public class WatchlistPostTest {
     @Test
     @Transactional
     public void addMovieToWatchlistTest_StatusNotFound() throws Exception {
-        mockMvc.perform(post("/watchlist/21/user2"))
+        mockMvc.perform(post("/watchlist/21/user2")
+                .header("authorization", "mockToken"))
                 .andExpect(status().isNotFound());
     }
 }
