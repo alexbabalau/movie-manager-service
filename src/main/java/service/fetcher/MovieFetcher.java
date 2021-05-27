@@ -13,6 +13,7 @@ import service.tmdb.TmdbApiService;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,6 +67,7 @@ public class MovieFetcher {
             Movie movie = new Movie(movieCompressed);
             addGenresToMovieFromMovieCompressed(movie, movieCompressed);
             addActorsToMovieFromMovieCompressed(movie, movieCompressed);
+            movie.setAddedDate(new Date());
             movieRepository.save(movie);
             totalSaved += 1;
             if(totalSaved == limit)

@@ -8,16 +8,20 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import repository.MovieRepository;
+import service.movie.getter.MovieGetterService;
 
 import javax.transaction.Transactional;
 
 import static org.hamcrest.Matchers.*;
 
+import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -27,12 +31,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestPropertySource(
         locations = "classpath:application-test.properties")
+@ActiveProfiles("test")
 public class MovieListGetterTest {
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private MovieRepository movieRepository;
+
+    @Autowired
+    private MovieGetterService movieGetterService;
+
+    @Test
+    public void getMoviesOrderedByAddedDate(){
+        List<String> newlyAddedTitles = movieGetterService.getNewlyAddedTitles(0);
+        assertEquals(newlyAddedTitles, Arrays.asList("Monster Hunter", "Wonder Woman 1984", "Mortal Kombat Legends: Scorpion's Revenge", "Black Water: Abyss", "The Croods: A New Age"));
+    }
 
     @Test
     public void movieByTitleGetterTest_StatusOk() throws Exception {

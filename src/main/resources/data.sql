@@ -1,8 +1,8 @@
-DROP TABLE IF EXISTS MOVIE_RATING;
-DROP VIEW IF EXISTS MOVIE_RATING;
-CREATE VIEW MOVIE_RATING
+DROP TABLE IF EXISTS movie_rating;
+DROP VIEW IF EXISTS movie_rating;
+CREATE VIEW movie_rating
 AS
 SELECT m.id AS id, AVG(CAST(IFNULL(stars, 0) as FLOAT)) AS rating
-    FROM REVIEWS r RIGHT JOIN MOVIES m
+    FROM reviews r RIGHT JOIN movies m
     ON r.movie_id = m.id
     GROUP BY m.id;

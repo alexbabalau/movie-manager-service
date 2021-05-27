@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import service.fetcher.MovieFetcher;
+import utils.security.Allowed;
 
 @RestController
 @RequestMapping("/fetch")
+@CrossOrigin
 public class FetcherRestController {
 
     private MovieFetcher movieFetcher;
@@ -18,13 +20,15 @@ public class FetcherRestController {
 
     @GetMapping("/movies/{year}/{limit}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void fetchMovies(@PathVariable Integer year, @PathVariable Integer limit){
+    @Allowed
+    public void fetchMovies(@PathVariable Integer year, @PathVariable Integer limit, @RequestHeader("authorization") String token){
         movieFetcher.saveMoviesByYear(year, limit);
     }
 
     @GetMapping("/genres")
     @ResponseStatus(HttpStatus.CREATED)
-    public void fetchGenres(){
+    @Allowed
+    public void fetchGenres(@RequestHeader("authorization") String token){
         movieFetcher.saveGenres();
     }
 

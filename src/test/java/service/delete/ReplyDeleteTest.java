@@ -3,6 +3,7 @@ package service.delete;
 import application.MovieManagerServiceApplication;
 import model.Reply;
 import model.Review;
+import org.springframework.test.context.ActiveProfiles;
 import repository.ReplyRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = MovieManagerServiceApplication.class)
 @AutoConfigureMockMvc
 @TestPropertySource("classpath:application-test.properties")
+@ActiveProfiles("test")
 public class ReplyDeleteTest {
 
     @Autowired
@@ -37,6 +39,7 @@ public class ReplyDeleteTest {
         long countBefore = replyRepository.count();
 
         mockMvc.perform(delete("/replies/1/user1")
+                .header("authorization", "mockToken")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
@@ -53,6 +56,7 @@ public class ReplyDeleteTest {
     public void reviewDeleteTest_StatusNotFound() throws Exception{
 
         mockMvc.perform(delete("/replies/0/user1")
+                .header("authorization", "mockToken")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
@@ -62,6 +66,7 @@ public class ReplyDeleteTest {
     public void reviewDeleteTest_StatusForbidden() throws Exception{
 
         mockMvc.perform(delete("/replies/1/user2")
+                .header("authorization", "mockToken")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
     }

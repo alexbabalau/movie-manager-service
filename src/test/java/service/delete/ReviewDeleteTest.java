@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import repository.LikeRepository;
@@ -24,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = MovieManagerServiceApplication.class)
 @AutoConfigureMockMvc
 @TestPropertySource("classpath:application-test.properties")
+@ActiveProfiles("test")
 public class ReviewDeleteTest {
     @Autowired
     private MockMvc mockMvc;
@@ -41,7 +43,8 @@ public class ReviewDeleteTest {
         long countBefore = reviewRepository.count();
 
         mockMvc.perform(delete("/reviews/1/user1")
-        .contentType(MediaType.APPLICATION_JSON))
+                .header("authorization", "mockToken")
+                .contentType(MediaType.APPLICATION_JSON))
            .andExpect(status().isNoContent());
 
         Optional<Review> retrievedReview = reviewRepository.findById(1L);
@@ -57,6 +60,7 @@ public class ReviewDeleteTest {
     public void reviewDeleteTest_StatusNotFound() throws Exception{
 
         mockMvc.perform(delete("/reviews/0/user1")
+                .header("authorization", "mockToken")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
@@ -67,6 +71,7 @@ public class ReviewDeleteTest {
     public void reviewDeleteTest_StatusForbidden() throws Exception{
 
         mockMvc.perform(delete("/reviews/1/user2")
+                .header("authorization", "mockToken")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
 
@@ -75,7 +80,8 @@ public class ReviewDeleteTest {
     @Test
     @Transactional
     public void likeDeleteTest_StatusNoContent() throws Exception{
-        mockMvc.perform(delete("/likes/1/user1"))
+        mockMvc.perform(delete("/likes/1/user1")
+                .header("authorization", "mockToken"))
                 .andExpect(status().isNoContent());
         List<Like> likes = likeRepository.findLikesByReviewIdAnsUsername(1L, "user1");
         assertNotNull(likes);
@@ -85,9 +91,11 @@ public class ReviewDeleteTest {
     @Test
     @Transactional
     public void likeDeleteTest_StatusNotFound() throws Exception{
-        mockMvc.perform(delete("/likes/1/user0"))
+        mockMvc.perform(delete("/likes/1/user0")
+                .header("authorization", "mockToken"))
                 .andExpect(status().isNotFound());
-        mockMvc.perform(delete("/likes/0/user1"))
+        mockMvc.perform(delete("/likes/0/user1")
+                .header("authorization", "mockToken"))
                 .andExpect(status().isNotFound());
     }
 }

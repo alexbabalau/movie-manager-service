@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 import service.watchlist.WatchlistService;
 import utils.exceptions.NoSuchMovieException;
 import utils.exceptions.WatchlistEntryNotFoundException;
+import utils.security.Allowed;
 
 import java.util.List;
 
@@ -26,13 +27,15 @@ public class WatchlistController {
 
     @GetMapping("/exists/{movieId}/{username}")
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody  Boolean hasMovieInWatchlist(@PathVariable Long movieId, @PathVariable String username){
+    @Allowed
+    public @ResponseBody  Boolean hasMovieInWatchlist(@PathVariable Long movieId, @PathVariable String username, @RequestHeader("authorization") String token){
         return watchlistService.hasMovieInWatchlist(movieId, username);
     }
 
     @PostMapping("/{movieId}/{username}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addMovieToWatchlist(@PathVariable Long movieId, @PathVariable String username){
+    @Allowed
+    public void addMovieToWatchlist(@PathVariable Long movieId, @PathVariable String username, @RequestHeader("authorization") String token){
         try{
             watchlistService.addMovie(movieId, username);
         }
@@ -43,7 +46,8 @@ public class WatchlistController {
 
     @DeleteMapping("/{movieId}/{username}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeMovieFromWatchlist(@PathVariable Long movieId, @PathVariable String username){
+    @Allowed
+    public void removeMovieFromWatchlist(@PathVariable Long movieId, @PathVariable String username, @RequestHeader("authorization") String token){
         try{
             watchlistService.deleteMovie(movieId, username);
         }
@@ -54,7 +58,8 @@ public class WatchlistController {
 
     @GetMapping("/{username}")
     @ResponseStatus(HttpStatus.OK)
-    public List<MovieCompressed> getUserWatchlist(@PathVariable String username){
+    @Allowed
+    public List<MovieCompressed> getUserWatchlist(@PathVariable String username, @RequestHeader("authorization") String token){
         return watchlistService.getWatchlistForUser(username);
     }
 

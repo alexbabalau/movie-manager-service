@@ -8,9 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import service.movie.getter.MovieGetterService;
+import service.movie.getter.RecommenderService;
 import service.review.getter.ReviewGetterService;
 import utils.exceptions.NoSuchGenreException;
 import utils.exceptions.NoSuchMovieException;
+import utils.security.Allowed;
 
 import java.util.List;
 
@@ -21,11 +23,13 @@ public class MovieGetterController {
 
     private MovieGetterService movieGetterService;
     private ReviewGetterService reviewGetterService;
+    private RecommenderService recommenderService;
 
     @Autowired
-    public MovieGetterController(MovieGetterService movieGetterService, ReviewGetterService reviewGetterService){
+    public MovieGetterController(MovieGetterService movieGetterService, ReviewGetterService reviewGetterService, RecommenderService recommenderService){
         this.movieGetterService = movieGetterService;
         this.reviewGetterService = reviewGetterService;
+        this.recommenderService = recommenderService;
     }
 
     @GetMapping("/newest/{page}")
@@ -96,13 +100,21 @@ public class MovieGetterController {
 
     @GetMapping("/{movieId}/likes/{username}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Long> getLikeReviewsIdByMovieIdAndUsername(@PathVariable Long movieId, @PathVariable String username){
+    @Allowed
+    public List<Long> getLikeReviewsIdByMovieIdAndUsername(@PathVariable Long movieId, @PathVariable String username, @RequestHeader("authorization") String token){
         try{
             return reviewGetterService.getLikesReviewsIdFromMovieAndUsername(movieId, username);
         }
         catch (NoSuchMovieException ex){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie not found");
         }
+    }
+
+    @GetMapping("/recommended/{username}")
+    @ResponseStatus(HttpStatus.OK)
+    @Allowed
+    public List<MovieCompressed> getRecommendedMovies(@PathVariable String username, @RequestHeader("authorization") String token){
+        return recommenderService.recommendMovies(username);
     }
 
 }

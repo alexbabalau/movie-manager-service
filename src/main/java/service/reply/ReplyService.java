@@ -1,11 +1,13 @@
 package service.reply;
 
+import model.EmailWithNoAddress;
 import model.Reply;
 import model.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.ReplyRepository;
 import repository.ReviewRepository;
+import service.email.EmailService;
 import utils.exceptions.NoDeletePermissionException;
 import utils.exceptions.NoSuchReplyException;
 import utils.exceptions.NoSuchReviewException;
@@ -17,11 +19,13 @@ public class ReplyService {
 
     private ReplyRepository replyRepository;
     private ReviewRepository reviewRepository;
+    private EmailService emailService;
 
     @Autowired
-    public ReplyService(ReplyRepository replyRepository, ReviewRepository reviewRepository){
+    public ReplyService(ReplyRepository replyRepository, ReviewRepository reviewRepository, EmailService emailService){
         this.replyRepository = replyRepository;
         this.reviewRepository = reviewRepository;
+        this.emailService = emailService;
     }
 
     public Reply addReply(Long reviewId, Reply reply, String username){
@@ -31,7 +35,10 @@ public class ReplyService {
             throw new NoSuchReviewException();
         }
         Review review = reviewOptional.orElse(null);
+        String reviewUsername = review.getUsername();
         reply = replyRepository.save(reply);
+        String movieTitle = review.getMovie().getTitle();
+        emailService.sendEmailToUser(reviewUsername, EmailWithNoAddress.getEmailFromReply(reply, movieTitle));
         review.addReply(reply);
         reviewRepository.save(review);
         return reply;

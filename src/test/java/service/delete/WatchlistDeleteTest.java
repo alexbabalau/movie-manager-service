@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -25,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = MovieManagerServiceApplication.class)
 @AutoConfigureMockMvc
 @TestPropertySource("classpath:application-test.properties")
+@ActiveProfiles("test")
 public class WatchlistDeleteTest {
 
     @Autowired
@@ -38,6 +40,7 @@ public class WatchlistDeleteTest {
     public void watchlistEntryDeleteTest_StatusNoContent() throws Exception{
 
         mockMvc.perform(delete("/watchlist/20/user1")
+                .header("authorization", "mockToken")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 

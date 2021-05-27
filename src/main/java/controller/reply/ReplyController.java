@@ -10,9 +10,11 @@ import service.reply.ReplyService;
 import utils.exceptions.NoDeletePermissionException;
 import utils.exceptions.NoSuchReplyException;
 import utils.exceptions.NoSuchReviewException;
+import utils.security.Allowed;
 
 @RestController
 @RequestMapping("/replies")
+@CrossOrigin
 public class ReplyController {
 
     private ReplyService replyService;
@@ -24,7 +26,8 @@ public class ReplyController {
 
     @PostMapping("/{reviewId}/{username}")
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody Reply addReply(@PathVariable Long reviewId, @PathVariable String username, @RequestBody Reply reply){
+    @Allowed
+    public @ResponseBody Reply addReply(@PathVariable Long reviewId, @PathVariable String username, @RequestBody Reply reply, @RequestHeader("authorization") String token){
         try{
             return replyService.addReply(reviewId, reply, username);
         }
@@ -35,7 +38,8 @@ public class ReplyController {
 
     @DeleteMapping("/{replyId}/{username}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteReply(@PathVariable Long replyId, @PathVariable String username){
+    @Allowed
+    public void deleteReply(@PathVariable Long replyId, @PathVariable String username, @RequestHeader("authorization") String token){
         try{
             replyService.deleteReply(replyId, username);
         }

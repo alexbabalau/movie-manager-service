@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -20,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestPropertySource("classpath:application-test.properties")
 @AutoConfigureRestDocs(outputDir = "target/snippets")
+@ActiveProfiles("test")
 public class WatchlistGetterTest {
 
     @Autowired
@@ -28,7 +30,8 @@ public class WatchlistGetterTest {
     @Test
     public void getWatchlistForUser_StatusOk() throws Exception {
         mockMvc.perform(get("/watchlist/user1")
-        .contentType(MediaType.APPLICATION_JSON))
+                .header("authorization", "mockToken")
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[*]", hasSize(1)))
@@ -39,6 +42,7 @@ public class WatchlistGetterTest {
     @Test
     public void hasMovieInWatchlistTestTrue_StatusOk() throws Exception{
         mockMvc.perform(get("/watchlist/exists/20/user1")
+                .header("authorization", "mockToken")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"));
@@ -47,6 +51,7 @@ public class WatchlistGetterTest {
     @Test
     public void hasMovieInWatchlistTestFalse_StatusOk() throws Exception{
         mockMvc.perform(get("/watchlist/exists/21/user1")
+                .header("authorization", "mockToken")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("false"));

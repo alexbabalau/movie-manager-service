@@ -5,6 +5,7 @@ import model.MovieCompressed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import service.search.SearchService;
+import utils.security.Allowed;
 
 import java.util.List;
 

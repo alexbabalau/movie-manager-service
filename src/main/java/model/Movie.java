@@ -1,6 +1,7 @@
 package model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,9 @@ public class Movie {
     private Integer tmdbId;
 
     private String title;
+
+    @JsonIgnore
+    private Date addedDate;
 
     @Lob
     private String description;

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service("movieGetter")
-@PropertySource("classpath:/app-response.properties")
+@PropertySource("classpath:/app-service.properties")
 public class MovieGetterService {
 
     @Value("${response.items.per.page}")
@@ -34,6 +34,13 @@ public class MovieGetterService {
     public MovieGetterService(MovieRepository movieRepository, GenreListRetriever genreListRetriever){
         this.movieRepository = movieRepository;
         this.genreListRetriever = genreListRetriever;
+    }
+
+    @Transactional
+    public List<String> getNewlyAddedTitles(int page){
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Order.desc("addedDate").nullsLast()));
+        List<Movie> movies = movieRepository.findAll(pageable).toList();
+        return movies.stream().map(Movie::getTitle).collect(Collectors.toList());
     }
 
     private List<MovieCompressed> compressedMovieList(List<Movie> movies){

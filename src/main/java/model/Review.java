@@ -30,6 +30,7 @@ public class Review {
             (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date date;
 
+    @Lob
     private String comment;
 
     private String username;

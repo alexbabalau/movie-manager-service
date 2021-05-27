@@ -13,13 +13,23 @@ import java.util.Optional;
 
 public interface MovieRepository extends PagingAndSortingRepository<Movie, Long> {
     Optional<Movie> findFirstByOrderById();
+
     Optional<Movie> findByTmdbId(Integer tmdbId);
+
     List<Movie> findByGenresIn(List<Genre> genres);
-    @Query("SELECT m FROM Movie m WHERE m.id IN (select m.id from Movie m join m.genres g where g.name in :genres group by m.id having count(m.id) = :size) AND m.movieRating.rating >= :minRating")
+
+    @Query(value = "SELECT m FROM Movie m LEFT JOIN FETCH m.movieRating mr WHERE m.id IN (select m.id from Movie m join m.genres g where g.name in :genres group by m.id having count(m.id) = :size) AND mr.rating >= :minRating",
+    countQuery = "SELECT count(m) from Movie m LEFT JOIN m.movieRating mr WHERE m.id IN (select m.id from Movie m join m.genres g where g.name in :genres group by m.id having count(m.id) = :size) AND mr.rating >= :minRating")
     Page<Movie> findByGenresContainingAndRatingGreaterThan(List<String> genres, Long size, Double minRating, Pageable pageable);
-    @Query("SELECT m FROM Movie m WHERE m.movieRating.rating >= :minRating")
+
+    @Query(value = "SELECT m FROM Movie m LEFT JOIN FETCH m.movieRating mr WHERE mr.rating >= :minRating",
+    countQuery = "SELECT count(m) FROM Movie m LEFT JOIN m.movieRating mr WHERE mr.rating >= :minRating")
     Page<Movie> findByRatingGreaterThan(Double minRating, Pageable pageable);
     Page<Movie> findByTitleContainingIgnoreCase(String searchEntry, Pageable pageable);
-    @Query("SELECT m FROM Movie m WHERE m.id IN (select m.id FROM Movie m join m.actors a where LOWER(a.name) like LOWER(concat('%',  concat(:actorSearch, '%'))))")
+
+    @Query(value = "SELECT m FROM Movie m LEFT JOIN FETCH m.movieRating mr WHERE m.id IN (select m.id FROM Movie m join m.actors a where LOWER(a.name) like LOWER(concat('%',  concat(:actorSearch, '%'))))",
+    countQuery = "SELECT count(m) FROM Movie m LEFT JOIN m.movieRating mr WHERE m.id IN (select m.id FROM Movie m join m.actors a where LOWER(a.name) like LOWER(concat('%',  concat(:actorSearch, '%'))))")
     Page<Movie> findByActorNameContaining(String actorSearch, Pageable pageable);
+
+    List<Movie> findByTitleIn(List<String> titles);
 }
